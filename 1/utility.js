@@ -1,17 +1,33 @@
-const CANVAS_HEIGHT = $(window).width();
-const CANVAS_WIDTH = $(window).height();
-const stepRight = 2;
-const stepDown = -2;
-const enemyCount = 3;
-const FPS = 30;
+var CANVAS_HEIGHT = 0;
+var CANVAS_WIDTH = 0;
 
-var collisionTable = new Array(CANVAS_WIDTH);
-for(let i = 0; i < collisionTable.length; i++){
-  collisionTable[i] = new Array(CANVAS_HEIGHT);
+var canvas;
+var collisionTable;
+ 
+$(document).ready(() => {
+
+    CANVAS_HEIGHT = $(window).width();
+    CANVAS_WIDTH = $(window).height();
+
+    const canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
+                            "' height='" + CANVAS_HEIGHT + "'></canvas>");
+
+    canvas = canvasElement.get(0).getContext("2d");
+
+    canvasElement.appendTo("body");
+
+    collisionTable = new Array(CANVAS_WIDTH);
+        for(let i = 0; i < collisionTable.length; i++){
+    collisionTable[i] = new Array(CANVAS_HEIGHT);
 }
 
-var enemyX = 100;
-var enemyY = 100;
+for(let i = 0; i < CANVAS_HEIGHT; i++){
+    for(let j = 0; j < CANVAS_WIDTH; j++){
+        collisionTable[i][j] = {x:i, y:j};
+    }
+}  
+
+})
 
 function updateCanvas(object){
     canvas.fillStyle = object.color;

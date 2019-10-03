@@ -1,10 +1,14 @@
-const canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
-"' height='" + CANVAS_HEIGHT + "'></canvas>");
-
-const canvas = canvasElement.get(0).getContext("2d");
-
-
 $(document).ready(() => {
+
+const stepRight = 2;
+const stepDown = -2;
+const FPS = 30;
+
+var enemyX = 100;
+var enemyY = 100;
+
+  console.log(CANVAS_HEIGHT)
+  console.log(CANVAS_WIDTH)
 
   var enemies = [];
 
@@ -12,16 +16,7 @@ $(document).ready(() => {
     enemies.push(Enemy(enemyX, enemyY));
     enemyX += 100;
     enemyY += 100; 
-  }
-
-  for(let i = 0; i < CANVAS_HEIGHT; i++){
-    for(let j = 0; j < CANVAS_WIDTH; j++){
-      collisionTable[i][j] = {x:i, y:j};
-  }
 }
-
-    canvasElement.appendTo("body");
-
     player = new Object();
     player = Player;
     fillColission(player);
