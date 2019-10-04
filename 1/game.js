@@ -4,22 +4,12 @@ const stepRight = 2;
 const stepDown = -2;
 const FPS = 30;
 
-var enemyX = 100;
-var enemyY = 100;
-
-  console.log(CANVAS_HEIGHT)
-  console.log(CANVAS_WIDTH)
-
-  var enemies = [];
-
-  for(let i = 0; i < 3; i++) {
-    enemies.push(Enemy(enemyX, enemyY));
-    enemyX += 100;
-    enemyY += 100; 
-}
-    player = new Object();
-    player = Player;
-    fillColission(player);
+player = makeMePlayer(gameObject2D({
+              x: Math.round(CANVAS_WIDTH / 2),
+              y: Math.round(CANVAS_HEIGHT / 2),
+              width: 100,
+              height: 100
+              },true));
 
     $(document).keypress(function( event ){
         if(event.keyCode == player.left) {
@@ -47,12 +37,8 @@ var enemyY = 100;
 function update(){
 
   canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  player.update();
-  enemies.forEach(function(enemy) {
-      enemy.update();
-    });    
-  enemies = enemies.filter(function(enemy) {
-        return enemy.isActive;
+  objects2D.forEach(object2D => {
+      object2D.update();
   });
 
 };
@@ -60,6 +46,10 @@ function update(){
 setInterval(() => {
    update();
 }, 1000/FPS);
+
+setInterval(() => {
+  clearGarbage2D();
+}, 60000);
 
 })
 
