@@ -6,8 +6,8 @@ var collisionTable;
  
 $(document).ready(() => {
 
-    CANVAS_HEIGHT = $(document).width();
-    CANVAS_WIDTH = $(document).height();
+    CANVAS_HEIGHT = $(window).height() - 25;
+    CANVAS_WIDTH = $(window).width() - 15;
 
     const canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
                             "' height='" + CANVAS_HEIGHT + "'></canvas>");
@@ -40,13 +40,6 @@ function destroy(object){
     object.isActive = false;
     object.isMoving = false;
 }
-
-function collides(a, b) {
-    return a.x < b.x + b.width &&
-           a.x + a.width > b.x &&
-           a.y < b.y + b.height &&
-           a.y + a.height > b.y;
-  }
 
 function move(object, step){
 

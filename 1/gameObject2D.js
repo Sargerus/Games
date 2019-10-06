@@ -53,11 +53,13 @@ function makeMePlayer(object){
     object.type = 'player';
     object.collisionId = object.type + Math.random();
     object.color = "#FF0000";
-    object.left = 97;
-    object.right = 100;
-    object.up = 119;
-    object.down = 115;
-    object.fire = 102;
+    object.stepRight = 2;
+    object.stepDown = -2;
+    // object.left = 97;
+    // object.right = 100;
+    // object.up = 119;
+    // object.down = 115;
+    // object.fire = 102;
     object.update = function(){
         if(object.isActive = true){
         updateCanvas(object);
