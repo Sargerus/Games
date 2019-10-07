@@ -20,12 +20,15 @@ function gameObject2D(sizeAndCords, active){
     newGameObject2D.width    = sizeAndCords.width;
     newGameObject2D.height   = sizeAndCords.height;
     newGameObject2D.isActive = active;
+    newGameObject2D.speed = speed;
 
-    if(checkBounds(newGameObject2D) < 2){
     objects2D.push(newGameObject2D);
-    } else {
-        newGameObject2D = null;
-    }
+
+    // if(checkBounds(newGameObject2D) < 2){
+    // objects2D.push(newGameObject2D);
+    // } else {
+    //     newGameObject2D = null;
+    // }
 
     return newGameObject2D;
 }
@@ -65,13 +68,13 @@ function makeMePlayer(object){
     object.image.id = 'xui';
     object.projectilesStartPoints = [{x: object.x + Math.round(object.width / 2), y: object.y - 20}];
     // object.color = "#FF0000";
-    object.stepRight = 2;
-    object.stepDown = -2;
+    object.stepRight = object.speed / 5;
+    object.stepDown = -object.speed / 5;
     object.update = function(){
         if(object.isActive = true){
         
         updateCanvas(object);
-        rotateImage(180, object.image.id);
+        // rotateImage(180, object.image.id);
         fillCollision(object);
         
     }
@@ -82,7 +85,7 @@ function makeMePlayer(object){
     }
     object.shoot = function(){
 
-            var newObject = gameObject2D({x: object.x + Math.round(object.width / 2), y: object.y - 5, width: 3, height: 3},true)
+            var newObject = gameObject2D({x: object.x + Math.round(object.width / 2), y: object.y - 10, width: 3, height: 3},true)
             if(newObject !== null){
                 makeMeBullet(newObject);
             }
@@ -108,6 +111,8 @@ function makeMeBullet(gameObject2D){
     gameObject2D.xVelocity = 0;
     gameObject2D.yVelocity = -gameObject2D.speed;
     gameObject2D.isMoving = true;
+    gameObject2D.image = new Image();
+    gameObject2D.image.src = './images/playerTank.png';
   
     gameObject2D.update = function() {
         if(gameObject2D.isActive == true){
