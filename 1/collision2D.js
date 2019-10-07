@@ -30,8 +30,16 @@ for(let i = 0; i < CANVAS_WIDTH; i++){
 })
 
 function updateCanvas(object){
-    canvas.fillStyle = object.color;
-    canvas.fillRect(object.x, object.y, object.width, object.height);
+    if(object.image.complete){
+        canvas.drawImage(object.image, object.x, object.y, object.width, object.height);
+    } else {
+        object.image.onload = () => {
+            canvas.drawImage(object.image, object.x, object.y, object.width, object.height);
+        }
+    }
+    
+    // canvas.fillStyle = object.color;
+    // canvas.fillRect(object.x, object.y, object.width, object.height);
 }
 
 function destroy(object){
@@ -294,4 +302,16 @@ function compareCordsWithBounds(cords){
         equality = 2;
     }
     return equality;
+}
+
+function rotateImage(degree, objectId) {
+	$('#' + objectId).animate({  transform: degree }, {
+    step: function(now,fx) {
+        $(this).css({
+            '-webkit-transform':'rotate('+now+'deg)', 
+            '-moz-transform':'rotate('+now+'deg)',
+            'transform':'rotate('+now+'deg)'
+        });
+    }
+    });
 }

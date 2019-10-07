@@ -1,4 +1,10 @@
 var objects2D = [];
+const object2DTypes = {
+    player: 'player',
+    enemy: 'enemy',
+    projectile: 'projectile',
+    bound: 'bound'
+}
 
 function clearGarbage2D(){
     objects2D = objects2D.filter((object2D) => {
@@ -26,12 +32,14 @@ function gameObject2D(sizeAndCords, active){
 
 function makeMeEnemy(gameObject2D){
 
-    gameObject2D.type = 'enemy';
-    gameObject2D.collisionId = gameObject2D.type + Math.random();
-  
+    // gameObject2D.type = 'enemy';
+    gameObject2D.collisionId = object2DTypes.enemy + Math.random();
+    gameObject2D.image = new Image();
+    gameObject2D.image.src = './images/enemyTank.png';
     gameObject2D.isActive = true;
+    object.projectilesStartPoints = [{x: object.x + Math.round(object.width / 2), y: object.y - 20}];
   
-    gameObject2D.color = "#00FF00";
+    // gameObject2D.color = "#00FF00";
     gameObject2D.xVelocity = 0
     gameObject2D.yVelocity = 2;
     
@@ -50,20 +58,22 @@ function makeMeEnemy(gameObject2D){
 
 function makeMePlayer(object){
 
-    object.type = 'player';
-    object.collisionId = object.type + Math.random();
-    object.color = "#FF0000";
+    // object.type = 'player';
+    object.collisionId = object2DTypes.player + Math.random();
+    object.image = new Image();
+    object.image.src = './images/playerTank.png';
+    object.image.id = 'xui';
+    object.projectilesStartPoints = [{x: object.x + Math.round(object.width / 2), y: object.y - 20}];
+    // object.color = "#FF0000";
     object.stepRight = 2;
     object.stepDown = -2;
-    // object.left = 97;
-    // object.right = 100;
-    // object.up = 119;
-    // object.down = 115;
-    // object.fire = 102;
     object.update = function(){
         if(object.isActive = true){
+        
         updateCanvas(object);
+        rotateImage(180, object.image.id);
         fillCollision(object);
+        
     }
     },
 
@@ -79,9 +89,9 @@ function makeMePlayer(object){
     }
 
     gameObject2D.actWith = function(object){
-        if(object.type === 'bound'){
+        if(object.type === object2DTypes.bound){
         }
-    if(object.type === 'enemy'){
+    if(object.type === object2DTypes.enemy){
         }
     },
 
@@ -93,7 +103,7 @@ function makeMePlayer(object){
 function makeMeBullet(gameObject2D){
     
     gameObject2D.speed = 5;
-    gameObject2D.type = 'bullet';
+    gameObject2D.type = object2DTypes.projectile;
     gameObject2D.collisionId = gameObject2D.type + Math.random();
     gameObject2D.xVelocity = 0;
     gameObject2D.yVelocity = -gameObject2D.speed;
@@ -108,10 +118,10 @@ function makeMeBullet(gameObject2D){
     }
 
     gameObject2D.actWith = function(object){
-        if(object.type === 'bound'){
+        if(object.type === object2DTypes.bound){
             destroy(gameObject2D);
             }
-        if(object.type === 'enemy'){
+        if(object.type === object2DTypes.enemy){
             destroy(gameObject2D);
             destroy(object);
             }

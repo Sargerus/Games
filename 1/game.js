@@ -1,3 +1,5 @@
+var currentMousePos = {};
+
 $(document).ready(() => {
 
 const FPS = 30;
@@ -10,6 +12,11 @@ player = makeMePlayer(gameObject2D({
               },true));
 
 InitializeDefaultControlSettingsOf(player);
+
+$(document).mousemove(function(e) {
+  currentMousePos.x = e.pageX;
+  currentMousePos.y = e.pageY;
+});
 
 function update(){
     checkKeys();
