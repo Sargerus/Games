@@ -39,8 +39,8 @@ function generateDefaultEnvironment(){
     }
 
     for(let i = 0; i < CANVAS_HEIGHT - playerModelHeight; i += playerModelHeight){ 
-        collisionTable[borderWidth][i] = object2DTypes.border;
-        collisionTable[CANVAS_WIDTH - borderWidth][i] = object2DTypes.border;
+        collisionTable[borderWidth][i] = object2DTypes.bound;
+        collisionTable[CANVAS_WIDTH - borderWidth][i] = object2DTypes.bound;
     }
 
     for(let i = playerModelWidth; i < CANVAS_WIDTH - playerModelWidth; i += playerModelWidth){ 
@@ -54,6 +54,6 @@ function generateDefaultEnvironment(){
     }
 
     for(let i = playerModelWidth; i < CANVAS_WIDTH - playerModelWidth; i += playerModelWidth){
-        collisionTable[i][CANVAS_HEIGHT - borderHeight] = object2DTypes.border;
+        collisionTable[i][CANVAS_HEIGHT - borderHeight] = object2DTypes.bound;
      }
 }

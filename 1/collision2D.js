@@ -6,8 +6,8 @@ var collisionTable;
  
 $(document).ready(() => {
 
-    CANVAS_HEIGHT = $(window).height() - playerModelHeight - 1;
-    CANVAS_WIDTH = $(window).width() - playerModelWidth - 1;
+    CANVAS_HEIGHT = $(window).height() - playerModelHeight;
+    CANVAS_WIDTH = $(window).width() - playerModelWidth;
 
     const canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
                             "' height='" + CANVAS_HEIGHT + "'></canvas>");
@@ -69,7 +69,7 @@ function move(object, step){
 
      if(collisionObjectsAndCords.length != 0){
         collisionObjectsAndCords.forEach((obj) => {
-            object.actWith(obj);
+            object.actWith(obj, () => {updateObjectCoordinates(object, step)});
         })
      } else {
          updateObjectCoordinates(object,step);
@@ -91,22 +91,22 @@ function moveObjectToDirection(object, step){
 function fillCollision(object){
 
     //left bound
-    for(let i = object.y; i < object.y + object.height; i++){
+    for(let i = object.y; i <= object.y + object.height; i++){
             collisionTable[object.x][i] = object.collisionId;
     }
 
     //upper bound
-    for(let j = object.x; j < object.x + object.width; j++){
+    for(let j = object.x; j <= object.x + object.width; j++){
         collisionTable[j][object.y] = object.collisionId;
     }
 
     //right bound
-    for(let i = object.y; i < object.y + object.height; i++ ){
+    for(let i = object.y; i <= object.y + object.height; i++ ){
         collisionTable[object.x + object.width][i] = object.collisionId;
     }
 
     //object bottom bound
-    for(let j = object.x; j < object.x + object.width; j++){
+    for(let j = object.x; j <= object.x + object.width; j++){
         collisionTable[j][object.y + object.height] = object.collisionId;
     }
 }
@@ -190,22 +190,22 @@ function compareCords(a,b){
 function eraseCollision(object){
 
     //left bound
-    for(let i = object.y; i < object.y + object.height; i++){
+    for(let i = object.y; i <= object.y + object.height; i++){
         collisionTable[object.x][i] = {x: object.x, y: i};
     }
 
     //upper bound
-    for(let j = object.x; j < object.x + object.width; j++){
+    for(let j = object.x; j <= object.x + object.width; j++){
         collisionTable[j][object.y] = {x: j, y: object.y};
     }
 
     //right bound
-    for(let i = object.y; i < object.y + object.height; i++ ){
+    for(let i = object.y; i <= object.y + object.height; i++ ){
         collisionTable[object.x + object.width][i] = {x: object.x + object.width, y: i};
     }
 
     //object bottom bound
-    for(let j = object.x; j < object.x + object.width; j++){
+    for(let j = object.x; j <= object.x + object.width; j++){
         collisionTable[j][object.y + object.height] = {x: j, y: object.y + object.height};
     }
 }

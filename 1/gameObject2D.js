@@ -1,4 +1,5 @@
 var objects2D = [];
+
 const object2DTypes = {
     player: 'player',
     enemy: 'enemy',
@@ -128,23 +129,26 @@ function makeMeBullet(gameObject2D){
   
     gameObject2D.update = function() {
         if(gameObject2D.isActive == true){
-    updateCanvas(gameObject2D);
-    fillCollision(gameObject2D);
+            updateCanvas(gameObject2D);
+           // fillCollision(gameObject2D);
     if(gameObject2D.isMoving == true){
         move(gameObject2D,{x: gameObject2D.xVelocity, y: gameObject2D.yVelocity})
     }
-
-    gameObject2D.actWith = function(object){
-        if(object.type === object2DTypes.bound){
-            destroy(gameObject2D);
-            }
-        if(object.type === object2DTypes.enemy){
-            destroy(gameObject2D);
-            destroy(object);
-            }
-        };
     }
-};  
+};
+
+gameObject2D.actWith = function(object, actionBeforeAct){
+    if(object.type === object2DTypes.bound){
+        destroy(gameObject2D);
+        }
+    if(object.type === object2DTypes.enemy){
+        destroy(gameObject2D);
+        destroy(object);
+        }
+    if(object.type === object2DTypes.projectile){
+        actionBeforeAct();
+        }
+    };
 
   fillCollision(gameObject2D);
 
