@@ -6,8 +6,8 @@ var collisionTable;
  
 $(document).ready(() => {
 
-    CANVAS_HEIGHT = $(window).height() - 25;
-    CANVAS_WIDTH = $(window).width() - 15;
+    CANVAS_HEIGHT = $(window).height() - playerModelHeight - 1;
+    CANVAS_WIDTH = $(window).width() - playerModelWidth - 1;
 
     const canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
                             "' height='" + CANVAS_HEIGHT + "'></canvas>");
@@ -173,18 +173,6 @@ for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
         }
     }
 }
-
-    // for(let i = object.y; i < object.y + object.height; i++){
-    
-    // for(let j = object.x; j < object.x + object.width; j++ ){
-
-    //         if(collisionTable[i][j].collisionId !== object.collisionId ){
-    //             if(compareCords(collisionTable[i][j], {x:i,y:j}) != 0){
-    //             collisionInfo.push(collisionTable[i][j]); 
-    //             }
-    //         }
-    //     }
-    // }
 }
     return collisionInfo;
 }
@@ -220,11 +208,6 @@ function eraseCollision(object){
     for(let j = object.x; j < object.x + object.width; j++){
         collisionTable[j][object.y + object.height] = {x: j, y: object.y + object.height};
     }
-//     for(let i = object.y; i < object.y + object.height; i++){
-//         for(let j = object.x; j < object.x + object.width; j++){
-//             collisionTable[i][j] = {x: i, y: j};
-//         }
-// }
 }
 
 function checkBounds(object){

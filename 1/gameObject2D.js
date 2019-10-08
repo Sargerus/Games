@@ -33,6 +33,18 @@ function gameObject2D(sizeAndCords, active){
     return newGameObject2D;
 }
 
+function spawnEnemy(object){
+
+return  makeMeEnemy(gameObject2D({
+        x: object.x,
+        y: object.y,
+        width: playerModelWidth,
+        height: playerModelHeight,
+        speed: object.speed
+        },object.isActive));
+
+}
+
 function makeMeEnemy(gameObject2D){
 
     // gameObject2D.type = 'enemy';
@@ -40,7 +52,7 @@ function makeMeEnemy(gameObject2D){
     gameObject2D.image = new Image();
     gameObject2D.image.src = './images/enemyTank.png';
     gameObject2D.isActive = true;
-    object.projectilesStartPoints = [{x: object.x + Math.round(object.width / 2), y: object.y - 20}];
+    gameObject2D.projectilesStartPoints = [{x: gameObject2D.x + Math.round(gameObject2D.width / 2), y: gameObject2D.y - 20}];
   
     // gameObject2D.color = "#00FF00";
     gameObject2D.xVelocity = 0

@@ -5,7 +5,7 @@ var speed = playerModelWidth / 5;
 
 $(document).ready(() => {
 
-const FPS = 30;
+const FPS = 60;
 
 player = makeMePlayer(gameObject2D({
               x: Math.round(CANVAS_WIDTH / 2),

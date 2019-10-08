@@ -30,7 +30,14 @@ function mapKey(event){
 
 function checkKeys(){
 
-    var cords = {};
+    controlSettings.forEach(key => {
+        if(mapKeys[key.which] == true){
+            key.action();
+        }
+
+    });
+    
+    // var cords = {};
 
 //     if(mapKeys[controlSettings[3].which] == true && mapKeys[controlSettings[0].which] == true){
 
@@ -60,25 +67,20 @@ function checkKeys(){
 //     }
 // } else {
 
-        controlSettings.forEach(key => {
-        if(mapKeys[key.which] == true){
-            key.action();
-        }
 
-    });
 }
 // }
 
-    function circleFormula(a,b,x,y,r){
-        let isOk = false;
+    // function circleFormula(a,b,x,y,r){
+    //     let isOk = false;
 
-        var result = Math.pow((x - a),2) + Math.pow((y - b),2) - Math.pow(r,2);
-        if(result >= 0 && result <= 5){
-            isOk = true;
-        }
+    //     var result = Math.pow((x - a),2) + Math.pow((y - b),2) - Math.pow(r,2);
+    //     if(result >= 0 && result <= 5){
+    //         isOk = true;
+    //     }
 
-        return isOk;
-    }
+    //     return isOk;
+    // }
 
 
 // }
