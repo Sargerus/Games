@@ -4,7 +4,9 @@ const object2DTypes = {
     player: 'player',
     enemy: 'enemy',
     projectile: 'projectile',
-    bound: 'bound'
+    bound: 'bound',
+    teleportStartPoint: 'teleportStartPoint',
+    teleportEndPoint:  'teleportEndPoint'
 }
 
 function clearGarbage2D(){
@@ -153,4 +155,52 @@ gameObject2D.actWith = function(object, actionBeforeAct){
   fillCollision(gameObject2D);
 
     return gameObject2D;
+}
+
+function makeMeTeleport(startPoint, endPoint){
+
+    var teleport = new Object();
+
+    teleport.startPoint = startPoint;
+    teleport.endPoint = endPoint;
+
+    startPoint.collisionId = object2DTypes.teleportStartPoint + Math.random();
+    endPoint.collisionId = object2DTypes.teleportEndPoint + Math.random();
+
+    startPoint.image = new Image();
+    endPoint.image = new Image();
+
+    startPoint.image.src = './images/teleportStartPoint.png';
+    endPoint.image.src = './images/teleportEndPoint.png';
+
+    startPoint.isActive = startPoint.isActive;
+    endPoint.isActive = endPoint.isActive;
+
+    teleport.update = function() {
+        if(teleport.startPoint.isActive = true){
+            updateCanvas(startPoint);
+            fillCollision(startPoint);    
+        }
+
+        if(teleport.endPoint.isActive = true){
+            updateCanvas(endPoint);
+            fillCollision(endPoint);    
+        }
+        
+    };
+
+    startPoint.actWith = function(object, actionBeforeAct = null){
+
+    };
+
+    endPoint.actWith = function(object, actionBeforeAct = null){
+
+    };
+
+    fillCollision(startPoint)
+    fillCollision(endPoint);
+
+    teleports.push(teleport);
+
+    return teleport;
 }
