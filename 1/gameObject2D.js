@@ -197,10 +197,14 @@ function makeMeTeleport(startPoint, endPoint){
 
     };
 
-    fillCollision(startPoint)
-    fillCollision(endPoint);
-
-    teleports.push(teleport);
+    fillCollision({ x: startPoint.x, 
+                    y: startPoint.y + Math.round(startPoint.height / 2), 
+                    width: playerModelWidth,
+                    height: playerModelHeight * 2 })
+    fillCollision({ x: endPoint.x, 
+                    y: endPoint.y + Math.round(endPoint.height / 2), 
+                    width: playerModelWidth,
+                    height: playerModelHeight * 2 });
 
     return teleport;
 }

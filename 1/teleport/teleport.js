@@ -5,22 +5,39 @@ var teleports = [];
 
 var teleportImage = 0;
 
+function saveTeleport(teleport){
+
+    if(teleports.lenght >= 3){
+        destroy(teleport);
+        teleport = null;
+    } else {
+        teleports.push(gameObject2D);
+    }
+
+    return teleport;
+}
+
 $(document).ready(() => {
 
 
 
 });
 
-function spawnTeleport(cords){
+function spawnTeleport(cordsStartPoint, cordsEndPoint){
 
-
-    var teleport = makeMeTeleport(gameObject2D({
-        x: cords.x,
-        y: cords.y,
-        width: TELEPORT_WIDTH,
-        height: TELEPORT_HEIGHT
-    }, true));
-
-
+    return saveTeleport(makeMeTeleport(
+        gameObject2D({
+            x: cordsStartPoint.x,
+            y: cordsStartPoint.y,
+            width: TELEPORT_WIDTH,
+            height: TELEPORT_HEIGHT
+    }, 
+        gameObject2D({
+            x: cordsEndPoint.x,
+            y: cordsEndPoint.y,
+            width: TELEPORT_WIDTH,
+            height: TELEPORT_HEIGHT
+    })
+    )));
 
 }
