@@ -1,6 +1,9 @@
+//initializing of global variables
 var currentMousePos = {};
 var playerModelWidth = 25;
 var playerModelHeight = 25;
+
+//every game object use speed based on this variable
 var speed = playerModelWidth / 5;
 
 $(document).ready(() => {
