@@ -40,4 +40,5 @@ function checkKeys(){
             key.action();
         }
 
-    });
+    })
+}
