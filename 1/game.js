@@ -30,7 +30,7 @@ $(document).mousemove(function(e) {
 function update(){
     checkKeys();
     canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    generateDefaultEnvironment();
+    generateDefaultEnvironment(CANVAS_WIDTH, CANVAS_HEIGHT, playerModelWidth, playerModelHeight);
     objects2D.forEach(object2D => {
           object2D.update();
     });
