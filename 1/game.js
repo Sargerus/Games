@@ -6,6 +6,8 @@ var playerModelHeight = 25;
 //every game object use speed based on this variable
 var speed = playerModelWidth / 5;
 
+loadTexturePackages();
+
 $(document).ready(() => {
 
 const FPS = 60;
@@ -18,7 +20,7 @@ player = makeMePlayer(gameObject2D({
               speed: speed
               },true));
 
-loadTexturePackages();
+
 InitializeDefaultControlSettingsOf(player);
 // generateDefaultEnvironment();
 

@@ -34,11 +34,9 @@ function mapKey(event){
 }
 
 function checkKeys(){
-
     controlSettings.forEach(key => {
         if(mapKeys[key.which] == true){
             key.action();
         }
-
     })
 }

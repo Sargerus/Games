@@ -1,8 +1,8 @@
 /*************************************************************************************************************** 
- *                                              Collision library                                                                                           *
+ *                                              Collision library                                              *
  * Collision detection is based on collistion table. Collision table has the same dimension as canvas.         *
  * Its two-dimensional table rows of which contains null or object id.                                         *
- * Only object borders are taken into account. This is not necessary to check to check whole object collision. *
+ * Only object borders are taken into account. This is not necessary to check whole object pixels.             *
 ***************************************************************************************************************/
 var CANVAS_HEIGHT = 0;
 var CANVAS_WIDTH = 0;

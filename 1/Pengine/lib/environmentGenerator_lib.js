@@ -1,6 +1,4 @@
-function generateDefaultEnvironment(areaWidth, areaHeight, width, height){
-    //width and height of main object on map
-
+function generateDefaultEnvironment(areaWidth, areaHeight, width, height){ //width and height of main object on map
     const wallTexture = textures.getTexture("default");
 
     borderWidth = Math.round(width / 2);
@@ -11,8 +9,8 @@ function generateDefaultEnvironment(areaWidth, areaHeight, width, height){
     }
 
     for(let i = 0; i < areaHeight - height; i += height / 2){ 
-        collisionTable[borderWidth][i] = object2DTypes.bound;
-        collisionTable[areaWidth - borderWidth][i] = object2DTypes.bound;
+        collisionTable[borderWidth][i] = object2DTypes.bound.collisionId;
+        collisionTable[areaWidth - borderWidth][i] = object2DTypes.bound.collisionId;
     }
 
     for(let i = width; i < areaWidth - width; i += width){ 
@@ -20,6 +18,6 @@ function generateDefaultEnvironment(areaWidth, areaHeight, width, height){
     }
 
     for(let i = width; i < areaWidth - width; i += width / 2){
-        collisionTable[i][areaHeight - borderHeight] = object2DTypes.bound;
+        collisionTable[i][areaHeight - borderHeight] = object2DTypes.bound.collisionId;
      }
 }
