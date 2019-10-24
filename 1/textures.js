@@ -2,7 +2,7 @@ var textures = {
     texturePack: new Set(),
     addNewTexture: (name, texture) => { this.texturePack.add(createObjectOfTexture(name,texture)); },//{ this.texturePack[texturePack.length + 1] = texture; },
     getTexture: (name) => {
-        for( let item of texturePack.values()) { if(item.name === name) return item; }
+        for( let item of texturePack.values()) { if(item.name === name) { item.numberOfCurrentUses++; return item; } }
     }
 };
 
@@ -20,25 +20,21 @@ function createObjectOfTexture(name, texture){
 }
 
 $(document).ready(()=>{
-    textures.texturePack[0] = new Image();
-    textures.texturePack[0].src = "./images/enemyTank.png";
+
+    //default texture at 0 position
+    var texture = new Image();
+    texture.src = "./images/enemyTank.png";
+
+    textures.addNewTexture('default', texture);
+
 })
 
 function loadTexturePackages(){
-
-    wallTexture = new Image();
-    wallTexture.src = "./images/enemyTank.png";
-
-    textures.addNewTexture(name, wallTexture);
 
 //     wallTexture.onload = () => {
 //         wallTextureLoaded = true;
 //    }
 
-    
-
-
-    
     //TODO wait for all resources loaded
 
     return true;

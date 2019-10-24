@@ -1,6 +1,8 @@
 function generateDefaultEnvironment(areaWidth, areaHeight, width, height){
     //width and height of main object on map
 
+    const wallTexture = textures.getTexture("default");
+
     borderWidth = Math.round(width / 2);
     borderHeight = Math.round(height / 2);
     for(let i = 0; i < areaHeight - height; i += height){ 
