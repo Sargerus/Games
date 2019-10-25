@@ -1,8 +1,14 @@
-function initializeGameEngine(type){
+function initializeGameEngine(){
+
+        var textures;
+
+        $(document).ready(() => {
         
-        //load default engine textures
-        var textures = loadTextureLibrary();
-        
-        //load default engine object support
-        var gameObjects = loadGameObjectLibrary();
+                //load default collision library
+                var collision = loadCollisionLibrary();
+                
+                //load default engine object support
+                var gameObjects = loadGameObjectLibrary();
+
+        })
 }
