@@ -1,14 +1,18 @@
+var coollision;
+var gameObjects;
+var texture;
+var context;
+
 function initializeGameEngine(){
+    
+    context = loadWorkArea2D();    
 
-        var textures;
-
-        $(document).ready(() => {
-        
-                //load default collision library
-                var collision = loadCollisionLibrary();
+    //load default collision library
+    collision = loadCollisionLibrary(context);
                 
-                //load default engine object support
-                var gameObjects = loadGameObjectLibrary();
+    //load default engine object support
+    gameObjects = loadGameObjectLibrary();
 
-        })
+    //ladoad default engine texture support
+    texture = loadTextureLibrary();
 }

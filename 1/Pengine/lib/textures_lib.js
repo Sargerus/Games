@@ -5,10 +5,10 @@ var textures = {
             this.texturePack.add(createObjectOfTexture(texture));
             }
     },
-    getByName: function(name) {
-        for( let item of this.texturePack) { 
-            if(item.value().name === name) { 
-                item.value().numberOfCurrentUses++; 
+    getTextureByName: function(name) {
+        for( let item of this.texturePack.values()) { 
+            if(item.name === name) { 
+                item.numberOfCurrentUses++; 
                     return item; 
             } 
         }
@@ -20,9 +20,9 @@ function createObjectOfTexture(texture){
         name: texture.name,
         numberOfCurrentUses: 0,
         creationTimestamp: Date.now(),
-        defaultWidth: texture.data.width,
-        defaultHeight: texture.data.height,
-        texture: (loadTexture(texture.path))()
+        // defaultWidth: texture.data.width,
+        // defaultHeight: texture.data.height,
+        texture: loadTexture(texture.path)
     }
 }
 
@@ -35,7 +35,7 @@ function loadTexture(path){
 function loadTextureLibrary(){
     //default texture at 0 position
     textures.add([
-        { name: 'default',  path: "./images/enemyTank.png" }
+        { name: 'default',  path: "./Pengine/images/enemyTank.png" }
     ]);
     //TODO wait for all resources loaded
     return textures;

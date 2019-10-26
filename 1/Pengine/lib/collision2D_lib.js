@@ -4,33 +4,23 @@
  * Its two-dimensional table rows of which contains null or object id.                                         *
  * Only object borders are taken into account. This is not necessary to check whole object pixels.             *
 ***************************************************************************************************************/
-function loadCollisionLibrary(){
-    return new collision2D();
+function loadCollisionLibrary(context2D){
+    return new collision2D(context2D);
 }
 
 class collision2D {
 
-    constructor(){
-        //set default canvas size
-        this.CANVAS_HEIGHT = $(window).height();
-        this.CANVAS_WIDTH = $(window).width();
-    
-        this.canvasElement = $("<canvas width='" + this.CANVAS_WIDTH + 
-                            "' height='" + this.CANVAS_HEIGHT + "'></canvas>");
-    
-        this.canvas = this.canvasElement.get(0).getContext("2d");
-    
-        this.canvasElement.appendTo("body");
+    constructor(context2D){
 
-        //initialization of collision table
-        this.collisionTable = new Array(this.CANVAS_WIDTH);
+        //initialize collision table
+        this.collisionTable = new Array(context2D.CANVAS_WIDTH);
 
         for(let i = 0; i < this.collisionTable.length; i++){
-            this.collisionTable[i] = new Array(this.CANVAS_HEIGHT);
+            this.collisionTable[i] = new Array(context2D.CANVAS_HEIGHT);
         }
     
-        for(let i = 0; i < this.CANVAS_WIDTH; i++){
-            for(let j = 0; j < this.CANVAS_HEIGHT; j++){
+        for(let i = 0; i < context2D.CANVAS_WIDTH; i++){
+            for(let j = 0; j < context2D.CANVAS_HEIGHT; j++){
                 this.collisionTable[i][j] = {x:i, y:j};
             }
         }
@@ -53,62 +43,6 @@ class collision2D {
 //     action(){},
 //     performAction() { this.resetValues(); this.prepareVariables(); if(this.validation()) { this.action(); } } 
 // }
-
-updateCanvas(object){
-    if(object.texture.complete){
-        canvas.drawImage(object.texture, object.x, object.y, object.width, object.height);
-    } else {
-        object.texture.onload = () => {
-            canvas.drawImage(object.texture, object.x, object.y, object.width, object.height);
-        }
-    }
-}
-
-destroy(object){
-    eraseCollision(object);
-    canvas.clearRect(object.x, object.y, object.x + object.width, object.y + object.height);
-    object.isActive = false;
-    object.isMoving = false;
-}
-
-move(object, step){
-
-    var collisionObjectsAndCords = getCollisionObjAndCords({
-        x: object.x + step.x,
-        y: object.y + step.y,
-        width: object.width,
-        height: object.height,
-        collisionId: object.collisionId
-    });
-
-    collisionObjectsAndCords = collisionObjectsAndCords.filter((item, pos) => {
-        return collisionObjectsAndCords.indexOf(item) == pos;
-    })
-
-    collisionObjectsAndCords = collisionObjectsAndCords.filter((item, pos) => {
-        return item !== object.collisionId;
-    })
-
-     if(collisionObjectsAndCords.length != 0){
-        collisionObjectsAndCords.forEach((obj) => {
-            object.actWith(obj, () => {updateObjectCoordinates(object, step)});
-        })
-     } else {
-         updateObjectCoordinates(object,step);
-     }
-}
-
-updateObjectCoordinates(object,step){
-    eraseCollision(object);
-    moveObjectToDirection(object, step);
-    fillCollision(object);
-}
-
-moveObjectToDirection(object, step){
-    //because here is only 2d moving is simple
-    object.x += step.x;
-    object.y += step.y;
-}
 
 fillCollision(object){
 
@@ -137,20 +71,20 @@ getCollisionObjAndCords(object){
 
     var collisionInfo = [];
 
-    var boundsEquality = checkBounds({
-        x: object.x,
-        y: object.y,
-        width: object.width,
-        height: object.height
-    });
+//     var boundsEquality = this.checkBounds({
+//         x: object.x,
+//         y: object.y,
+//         width: object.width,
+//         height: object.height
+//     });
 
-    if(boundsEquality == 1 || boundsEquality == 2){
-        collisionInfo.push({
-            x: object.x,
-            y: object.y,
-            type: 'bound'
-    });  
-} else {
+//     if(boundsEquality == 1 || boundsEquality == 2){
+//         collisionInfo.push({
+//             x: object.x,
+//             y: object.y,
+//             type: 'bound'
+//     });  
+// } else {
 
     var actionForBorder = action;
     actionForBorder.validation = function() { if(this.collisionTable[this.x][this.y].collisionId !== this.collisionId ){
@@ -238,7 +172,7 @@ getCollisionObjAndCords(object){
         // }
 //     }
 // }
-}
+// }
     return collisionInfo;
 }
 
@@ -250,7 +184,6 @@ compareCords(a,b){
 
     return compare;
 }
-
 
 eraseCollision(object){
 
@@ -331,22 +264,22 @@ if(outOfBounds == false){
 compareCordsWithBounds(cords){
     var equality = 0;
 
-    if(cords.x < this.CANVAS_WIDTH){
+    if(cords.x < context2D.CANVAS_WIDTH){
         equality = 0;
     }
-    if(cords.y < this.CANVAS_HEIGHT){
+    if(cords.y < context2D.CANVAS_HEIGHT){
         equality = 0;
     }
-    if((cords.x == this.CANVAS_WIDTH) || (cords.x == 0)){
+    if((cords.x == context2D.CANVAS_WIDTH) || (cords.x == 0)){
         equality = 1;
     }
-    if((cords.y == this.CANVAS_HEIGHT) || (cords.y == 0)){
+    if((cords.y == context2D.CANVAS_HEIGHT) || (cords.y == 0)){
         equality = 1;
     }
-    if((cords.x > this.CANVAS_WIDTH) || (cords.x < 0)){
+    if((cords.x > context2D.CANVAS_WIDTH) || (cords.x < 0)){
         equality = 2;
     }
-    if((cords.y > this.CANVAS_HEIGHT) || (cords.y < 0)){
+    if((cords.y > context2D.CANVAS_HEIGHT) || (cords.y < 0)){
         equality = 2;
     }
     return equality;

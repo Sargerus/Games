@@ -26,12 +26,18 @@ class objects {
         }
     }
 
-    createNewObject(type, startX, startY, width, height, isActive, speed, texture = undefined()){
+    createNewObject(startX, startY, width, height, isActive, speed, texture = undefined, type = undefined){
         var obj = new gameObject2D(startX, startY, width, height, isActive, speed, texture);
         if(obj !== null){
             this.addObject(obj);
         }
-        this.collisions.add({collisionId: obj.collisionId, type: type});
+        return obj;
+    }
+    createNewObject(obj){
+        if(obj !== null){
+            this.addObject(obj);
+        }
+        return obj;
     }
 }
 
@@ -44,23 +50,19 @@ class gameObject2D{
         this.height   = height;
         this.isActive = isActive;
         this.speed    = speed;
-        if(texture !== undefined){
-            this.defaultTexture = texture;
-        } else {
-            this.defaultTexture  = textures.getTexture('default');
-        }
-        addObject2D(this);
+        this.collisionId = this;
+
+        // this.texture = texture.getTextureByName('default').texture;
+
+        // if(this.texture !== undefined){
+        //     this.texture = image;
+        // } else {
+        //     this.texture = image; 
+        // }
     }
 
-    show(){
-
-    }
-
-    update () {
-        if(this.isActive){
-            updateCanvas(this);
-            fillCollision(this);    
-        }
+    setTexture(texture){
+        this.texture = texture;
     }
 }
 
