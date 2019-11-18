@@ -29,6 +29,6 @@ class canvas2D {
     }
 }
 
-function loadWorkArea2D(){
+function loadCanvas2D(){
     return new canvas2D();
 }

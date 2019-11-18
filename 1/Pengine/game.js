@@ -11,7 +11,7 @@ $(document).ready(() => {
 
     setInterval(() => {
         checkKeys();
-        context.context2D.clearRect(0, 0, context.CANVAS_WIDTH, context.CANVAS_HEIGHT);
+        canvas.context2D.clearRect(0, 0, canvas.CANVAS_WIDTH, canvas.CANVAS_HEIGHT);
         gameObjects.objects2D.forEach(object2D => {
             utility2D.updateObject(object2D);
         });

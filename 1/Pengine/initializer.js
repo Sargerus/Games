@@ -1,11 +1,9 @@
 var coollision;
 var gameObjects;
 var texture;
-var context;
+var canvas;
 
-function initializeGameEngine(){
-    
-    context = loadWorkArea2D();    
+function initializeGameEngine(){ 
 
     //load default collision library
     collision = loadCollisionLibrary(context);
@@ -15,4 +13,7 @@ function initializeGameEngine(){
 
     //ladoad default engine texture support
     texture = loadTextureLibrary();
+
+    //load canvas2D
+    canvas = loadCanvas2D();
 }

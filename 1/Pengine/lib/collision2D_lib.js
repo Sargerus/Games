@@ -326,26 +326,38 @@ rotateImage(degree, objectId) {
 
         //object left bound
         for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
+            if (actionForLeftBorder.validation())
+            {
             actionForLeftBorder.prepareVariables = () => { this.y = i; }
             actionForLeftBorder.performAction();
+            }
         }
 
         //object upper bound
         for(let j = object.x; j < object.x + object.width && j >= 0; j++){
+            if ( actionForUpperBorder.validation())
+            {
             actionForUpperBorder.prepareVariables = () => { this.x = j; }
             actionForUpperBorder.performAction();
+            }
         }
 
         //object right bound
         for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
+            if (actionForRightBorder.validation())
+            {
             actionForRightBorder.prepareVariables = () => { this.x = this.x + this.width; this.y = i; }
             actionForRightBorder.performAction();
+            }
         }
 
         //object bottom bound 
         for(let j = object.x; j < object.x + object.width && j >= 0; j++){
+            if(actionForBottomBorder.validation())
+            {
             actionForBottomBorder.prepareVariables = () => { this.x = j; this.y = this.y + this.height; }
             actionForBottomBorder.performAction();
+            }
         }
     }
 
