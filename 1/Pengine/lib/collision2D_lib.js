@@ -5,10 +5,27 @@
  * Only object borders are taken into account. This is not necessary to check whole object pixels.             *
 ***************************************************************************************************************/
 function loadCollisionLibrary(context2D){
-    return new collision2D(context2D);
+    return new Collision2D(context2D);
 }
 
-class collision2D {
+class Action{
+
+    actionArgs = {};
+    validation = function (){};
+    prepareVariables = function (){};
+    prepareVariablesCustom = function (){};
+    action = function (...args){};
+
+    performAction = function (){
+        this.prepareVariables();
+        this.prepareVariablesCustom();
+        if(this.validation()){
+            this.action();
+        }
+    }
+}
+
+class Collision2D {
 
     constructor(context2D){
 
@@ -25,46 +42,18 @@ class collision2D {
             }
         }
     }
-// action = {
-//     xstartValue: 0,
-//     ystartValue: 0,
-//     widthstartValue: 0,
-//     heightstartValue: 0,
-//     collisionIdstartValue: "",
-//     x: 0,
-//     y: 0,
-//     width: 0,
-//     height: 0,
-//     collisionId: "",
-//     validation() {},
-//     resetValues() { this.x = this.xstartValue; this.y = this.ystartValue, this.width = this.widthstartValue, 
-//                          this.height = this.heightstartValue, this.collisionId = this.collisionIdstartValue; },
-//     prepareVariables() {},
-//     action(){},
-//     performAction() { this.resetValues(); this.prepareVariables(); if(this.validation()) { this.action(); } } 
-// }
 
 fillCollision(object){
 
-    //left bound
-    for(let i = object.y; i <= object.y + object.height; i++){
-            this.collisionTable[object.x][i] = object.collisionId;
-    }
+    var actionForBorder = new Action();
 
-    //upper bound
-    for(let j = object.x; j <= object.x + object.width; j++){
-        this.collisionTable[j][object.y] = object.collisionId;
-    }
+    actionForBorder.actionArgs.collisionId = object.collisionId;
+    actionForBorder.actionArgs.collisionTable = this.collisionTable;
 
-    //right bound
-    for(let i = object.y; i <= object.y + object.height; i++ ){
-        this.collisionTable[object.x + object.width][i] = object.collisionId;
-    }
+    actionForBorder.validation = function(){return true;}
+    actionForBorder.action = function(){ this.actionArgs.collisionTable[this.x][this.y] = this.actionArgs.collisionId; }
 
-    //object bottom bound
-    for(let j = object.x; j <= object.x + object.width; j++){
-        this.collisionTable[j][object.y + object.height] = object.collisionId;
-    }
+    this.actionsAroundBorders(object, actionForBorder);
 }
 
 getCollisionObjAndCords(object){
@@ -86,19 +75,19 @@ getCollisionObjAndCords(object){
 //     });  
 // } else {
 
-    var actionForBorder = action;
-    actionForBorder.validation = function() { if(this.collisionTable[this.x][this.y].collisionId !== this.collisionId ){
-        if(compareCords(this.collisionTable[this.x][this.y], {x:this.x,y:this.y}) != 0){
+    var actionForBorder = new Action();
+
+    actionForBorder.actionArgs.collisionTable = this.collisionTable;
+    actionForBorder.actionArgs.collisionId = object.collisionId;
+
+    actionForBorder.validation = function() { if(this.actionArgs.collisionTable[this.x][this.y].collisionId !== this.actionArgs.collisionId ){
+        if(Utility2D.compareCords(this.actionArgs.collisionTable[this.x][this.y], {x:this.x,y:this.y}) != 0){
             return true;
         }}}
+        actionForBorder.prepareVariablesCustom = function() { this.width = object.width; this.height = object.height; }
+    actionForBorder.action = function(){ collisionInfo.push(this.actionArgs.collisionTable[this.x][this.y]); }
+    this.actionsAroundBorders(object, actionForBorder);
 
-    actionForBorder.action = function(){ collisionInfo.push(this.collisionTable[this.x][this.y]); }
-    actionsAroundBorders(object, 
-        actionForBorder,
-        actionForBorder,
-        actionForBorder,
-        actionForBorder
-    );
     // actionsAroundBorders(( x = undefined, y = undefined, value1 = undefined, value2 = undefined, object1 = null, object2 = null )=>{
     //     if(this.collisionTable[object1.x][y].collisionId !== object1.collisionId ){
     //         if(compareCords(this.collisionTable[object1.x][y], {x:object1.x,y:y}) != 0){
@@ -174,15 +163,6 @@ getCollisionObjAndCords(object){
 // }
 // }
     return collisionInfo;
-}
-
-compareCords(a,b){
-    var compare = 0;
-    if((a.x == b.x) && (a.y == b.y)){
-        compare = 0;
-    } else compare = 1;
-
-    return compare;
 }
 
 eraseCollision(object){
@@ -299,6 +279,13 @@ rotateImage(degree, objectId) {
 
     actionsAroundBorders( object, actionForLeftBorder = null, actionForUpperBorder = null, 
                                    actionForRightBorder = null, actionForBottomBorder = null ){
+        
+        if(actionForUpperBorder === null){
+            actionForUpperBorder = actionForLeftBorder;
+            actionForRightBorder = actionForLeftBorder;
+            actionForBottomBorder = actionForLeftBorder;
+        }
+
         actionForLeftBorder.xstartValue = 
         actionForUpperBorder.xstartValue = 
         actionForRightBorder.xstartValue = 
@@ -326,38 +313,26 @@ rotateImage(degree, objectId) {
 
         //object left bound
         for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
-            if (actionForLeftBorder.validation())
-            {
-            actionForLeftBorder.prepareVariables = () => { this.y = i; }
+            actionForLeftBorder.prepareVariables = function() { this.x = object.x; this.y = i; }
             actionForLeftBorder.performAction();
-            }
         }
 
         //object upper bound
         for(let j = object.x; j < object.x + object.width && j >= 0; j++){
-            if ( actionForUpperBorder.validation())
-            {
-            actionForUpperBorder.prepareVariables = () => { this.x = j; }
+            actionForUpperBorder.prepareVariables = function() { this.x = j; this.y = object.y; }
             actionForUpperBorder.performAction();
-            }
         }
 
         //object right bound
         for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
-            if (actionForRightBorder.validation())
-            {
-            actionForRightBorder.prepareVariables = () => { this.x = this.x + this.width; this.y = i; }
+            actionForRightBorder.prepareVariables = function() { this.x = object.x + object.width; this.y = i; }
             actionForRightBorder.performAction();
-            }
         }
 
         //object bottom bound 
         for(let j = object.x; j < object.x + object.width && j >= 0; j++){
-            if(actionForBottomBorder.validation())
-            {
-            actionForBottomBorder.prepareVariables = () => { this.x = j; this.y = this.y + this.height; }
+            actionForBottomBorder.prepareVariables = function() { this.x = j; this.y = object.y + object.height; }
             actionForBottomBorder.performAction();
-            }
         }
     }
 

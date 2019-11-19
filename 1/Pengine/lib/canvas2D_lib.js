@@ -1,4 +1,4 @@
-class canvas2D {
+class Canvas2D {
     constructor(){
         //set default canvas size
         this.CANVAS_HEIGHT = $(window).height();
@@ -30,5 +30,5 @@ class canvas2D {
 }
 
 function loadCanvas2D(){
-    return new canvas2D();
+    return new Canvas2D();
 }

@@ -1,42 +1,37 @@
+class Control{
+
 //players current key seettings
-var controlSettings = []
+controlSettings = []
 //to remember current pressed button
-var mapKeys = [];
+mapKeys = [];
 //need to define moving direction
-var direction = '00';
+direction = '00';
 
 //default player settings
 //TODO change hardcoded which!!!
-function InitializeDefaultControlSettingsOf(object){
-    controlSettings = [
-    {text: 'playerLeftMoveButton', which: 65, action: () => {move(object,{x: -object.stepRight, y: 0 })}},
-    {text: 'playerRightMoveButton', which: 68, action: () => {move(object, {x: object.stepRight, y: 0})}},
-    {text: 'playerUpMoveButton', which: 87, action: () => {move(object, {x: 0, y: object.stepDown})}},
-    {text: 'playerDownMoveButton', which: 83, action: () => {move(object, {x: 0, y: -object.stepDown})}},
+setControls(object) {
+    this.controlSettings = [
+    {text: 'playerLeftMoveButton', which: 65, action: () => {Utility2D.move(object,{x: -object.stepRight, y: 0 })}},
+    {text: 'playerRightMoveButton', which: 68, action: () => {Utility2D.move(object, {x: object.stepRight, y: 0})}},
+    {text: 'playerUpMoveButton', which: 87, action: () => {Utility2D.move(object, {x: 0, y: object.stepDown})}},
+    {text: 'playerDownMoveButton', which: 83, action: () => {Utility2D.move(object, {x: 0, y: -object.stepDown})}},
     {text: 'playerShoot', which: 32, action: () => {object.shoot()}}
     ];
+}    
+
+mapKey(event){
+    this.mapKeys[event.which] = event.type == 'keydown';
 }
 
-$(document).ready(() => {
-    
-    $(document).keydown((event) => {
-        mapKey(event);
-    });
-
-    $(document).keyup((event) => {
-        mapKey(event);
-    });
-
-})
-
-function mapKey(event){
-    mapKeys[event.which] = event.type == 'keydown';
-}
-
-function checkKeys(){
-    controlSettings.forEach(key => {
-        if(mapKeys[key.which] == true){
+checkKeys(){
+    this.controlSettings.forEach(key => {
+        if(this.mapKeys[key.which] == true){
             key.action();
         }
     })
+}
+}
+
+function loadControlLibrary() {
+    return new Control();
 }

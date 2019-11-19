@@ -1,12 +1,12 @@
-class utility2D{
+class Utility2D{
 
-updateObjectCoordinates(object,step){
+static updateObjectCoordinates(object,step){
     collision.eraseCollision(object);
-    moveObjectToDirection(object, step);
+    Utility2D.moveObjectToDirection(object, step);
     collision.fillCollision(object);
 }
 
-moveObjectToDirection(object, step){
+static moveObjectToDirection(object, step){
     //because here is only 2d moving is simple
     object.x += step.x;
     object.y += step.y;
@@ -37,16 +37,25 @@ static move(object, step){
     
          if(collisionObjectsAndCords.length != 0){
                 collisionObjectsAndCords.forEach((obj) => {
-                    object.actWith(obj, () => { this.updateObjectCoordinates(object, step)});
+                    object.actWith(obj, () => { Utility2D.updateObjectCoordinates(object, step)});
             });
          } else {
-            this.updateObjectCoordinates(object,step);
+            Utility2D.updateObjectCoordinates(object,step);
          }
+}
+
+static compareCords(a,b){
+    var compare = 0;
+    if((a.x == b.x) && (a.y == b.y)){
+        compare = 0;
+    } else compare = 1;
+
+    return compare;
 }
 
 static updateObject(object) {
     if(object.isActive){
-        context.updateCanvas(object);
+        canvas.updateCanvas(object);
         collision.fillCollision(object);    
     }
 }
