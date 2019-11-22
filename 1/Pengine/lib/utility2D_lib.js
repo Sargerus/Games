@@ -1,13 +1,13 @@
 class Utility2D{
 
 static updateObjectCoordinates(object,step){
-    collision.eraseCollision(object);
+    collision.eraseCollision(object,step);
     Utility2D.moveObjectToDirection(object, step);
-    collision.fillCollision(object);
+    collision.fillCollision(object,step);
 }
 
 static moveObjectToDirection(object, step){
-    //because here is only 2d moving is simple
+    //because here is only 2D moving is simple
     object.x += step.x;
     object.y += step.y;
 }
@@ -18,7 +18,7 @@ static destroy(object){
     collision.eraseCollision(object);
 }
 
-static move(object, step){
+static move(object, step){ //step = { x: , y: }
         var collisionObjectsAndCords = collision.getCollisionObjAndCords({
             x: object.x + step.x,
             y: object.y + step.y,
@@ -26,7 +26,6 @@ static move(object, step){
             height: object.height,
             collisionId: object.collisionId
         });
-    
         collisionObjectsAndCords = collisionObjectsAndCords.filter((item, pos) => {
             return collisionObjectsAndCords.indexOf(item) == pos;
         });

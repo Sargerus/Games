@@ -33,12 +33,17 @@ class objects {
         }
         return obj;
     }
+    
     createNewObject(obj){
         if(obj !== null){
             this.addObject(obj);
         }
         return obj;
     }
+
+    update(){}
+    render(){}
+    actWith(object){};
 }
 
 class gameObject2D{
@@ -63,6 +68,10 @@ class gameObject2D{
 
     setTexture(texture){
         this.texture = texture;
+    }
+
+    render(){
+        Pengui.canvas.updateCanvas(this);
     }
 }
 

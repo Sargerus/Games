@@ -4,10 +4,20 @@
         super(startX, startY, width, height, isActive, speed, texture, type)
 
         this.projectilesStartPoints = [{x: this.x + Math.round(this.width / 2), y: this.y - 20}];
-        this.stepRight = speed / 5;
-        this.stepDown = -this.speed / 5;
+        this.stepRight = speed;
+        this.stepDown = -this.speed;
 
         this.playerBullets = [];
+
+        Pengui.control.setControls(this);
+    }
+
+    update(){
+        Pengui.control.checkKeys();
+    }
+
+    render(){
+        gameObject2D.prototype.render();
     }
 
     // shoot(){

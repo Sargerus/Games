@@ -165,27 +165,60 @@ getCollisionObjAndCords(object){
     return collisionInfo;
 }
 
-eraseCollision(object){
+moveCollision(object, step){
+// x axis
+    if(step.x < 0){
+        const startValueX = object.x + object.width + step.x + 1;
+        for(let i = startValue; i < object.x + object.width; i++){
+                this.collisionTable[i, object.y] = undefined;
+                this.collisionTable[object.x - (i - startValueX), object.y] = object.collisionId;
 
-    //left bound
-    for(let i = object.y; i <= object.y + object.height; i++){
-        this.collisionTable[object.x][i] = {x: object.x, y: i};
-    }
+                this.collisionTable[i, object.y + object.height] = undefined;
+                this.collisionTable[object.x - (i - startValueX), object.y + object.height] = object.collisionId;
+        }
+        for(let j = object.y + 1; j < object.y + object.height - 1; j++ ){
+            this.collisionTable[object.x + object.width, j] = undefined;
+            this.collisionTable[object.x + step.x, j] = object.collisionId
+        }
 
-    //upper bound
-    for(let j = object.x; j <= object.x + object.width; j++){
-        this.collisionTable[j][object.y] = {x: j, y: object.y};
-    }
+    } else if(step.x > 0){
+        const endValueX = object.x + step.x - 1;
+        for(let i = object.x; i < endValueX; i++){
+                this.collisionTable[i, object.y] = undefined;
+                this.collisionTable[object.x + object.width + ( object.x + step.x - i ) , object.y] = object.collisionId;
 
-    //right bound
-    for(let i = object.y; i <= object.y + object.height; i++ ){
-        this.collisionTable[object.x + object.width][i] = {x: object.x + object.width, y: i};
+                this.collisionTable[i , object.y + object.height] = undefined;
+                this.collisionTable[object.x + object.width + ( object.x + step.x - i ) , object.y + object.height] = object.collisionId;
+        }
+        for(let j = object.y + 1; j < object.y + object.height - 1; j++ ){
+            this.collisionTable[object.x, j] = undefined;
+            this.collisionTable[object.x + object.width + step.x, j] = object.collisionId
+        }
     }
+//y axis
+    if(step.y < 0){
 
-    //object bottom bound
-    for(let j = object.x; j <= object.x + object.width; j++){
-        this.collisionTable[j][object.y + object.height] = {x: j, y: object.y + object.height};
     }
+}
+    // //left bound
+    // for(let i = object.y; i <= object.y + object.height; i++){
+    //     this.collisionTable[object.x][i] = {x: object.x, y: i};
+    // }
+
+    // //upper bound
+    // for(let j = object.x; j <= object.x + object.width; j++){
+    //     this.collisionTable[j][object.y] = {x: j, y: object.y};
+    // }
+
+    // //right bound
+    // for(let i = object.y; i <= object.y + object.height; i++ ){
+    //     this.collisionTable[object.x + object.width][i] = {x: object.x + object.width, y: i};
+    // }
+
+    // //object bottom bound
+    // for(let j = object.x; j <= object.x + object.width; j++){
+    //     this.collisionTable[j][object.y + object.height] = {x: j, y: object.y + object.height};
+    // }
 }
 
 checkBounds(object){
