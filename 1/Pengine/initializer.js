@@ -4,9 +4,9 @@ var texture;
 var canvas;
 var control;
 
-var Pengui = new Object;
+var Pengui = new PenguiCl();
 
-function initializeGameEngine(){ 
+function initializeGameEngine(){
 
     //load canvas2D
     Pengui.canvas = loadCanvas2D();
@@ -23,13 +23,4 @@ function initializeGameEngine(){
 
     //load default control settings
     Pengui.control = loadControlLibrary();
-
-    $(document).keydown((event) => {
-        control.mapKey(event);
-    });
-
-    $(document).keyup((event) => {
-        control.mapKey(event);
-    });
-
 }

@@ -1,9 +1,13 @@
 class Utility2D{
 
 static updateObjectCoordinates(object,step){
-    collision.eraseCollision(object,step);
-    Utility2D.moveObjectToDirection(object, step);
-    collision.fillCollision(object,step);
+    if(object.x != step.x || object.y != step.y){
+    Pengui.collision.moveCollision(object, step);
+    Utility2D.moveObjectToDirection(object, step)
+    // collision.eraseCollision(object,step);
+    Pengui.plsRememberToUpdateMe(object);
+    // collision.fillCollision(object,step);
+    }
 }
 
 static moveObjectToDirection(object, step){
@@ -19,7 +23,7 @@ static destroy(object){
 }
 
 static move(object, step){ //step = { x: , y: }
-        var collisionObjectsAndCords = collision.getCollisionObjAndCords({
+        var collisionObjectsAndCords = Pengui.collision.getCollisionObjAndCords({
             x: object.x + step.x,
             y: object.y + step.y,
             width: object.width,

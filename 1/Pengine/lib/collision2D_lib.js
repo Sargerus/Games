@@ -169,35 +169,60 @@ moveCollision(object, step){
 // x axis
     if(step.x < 0){
         const startValueX = object.x + object.width + step.x + 1;
-        for(let i = startValue; i < object.x + object.width; i++){
-                this.collisionTable[i, object.y] = undefined;
-                this.collisionTable[object.x - (i - startValueX), object.y] = object.collisionId;
+        for(let i = startValueX; i < object.x + object.width; i++){
+                this.collisionTable[i][object.y] = {x: i, y: object.y};
+                this.collisionTable[object.x - (i - startValueX - 1)][object.y] = object.collisionId;
 
-                this.collisionTable[i, object.y + object.height] = undefined;
-                this.collisionTable[object.x - (i - startValueX), object.y + object.height] = object.collisionId;
+                this.collisionTable[i][object.y + object.height] = {x:i, y:object.y + object.height};
+                this.collisionTable[object.x - (i - startValueX - 1)][object.y + object.height] = object.collisionId;
         }
         for(let j = object.y + 1; j < object.y + object.height - 1; j++ ){
-            this.collisionTable[object.x + object.width, j] = undefined;
-            this.collisionTable[object.x + step.x, j] = object.collisionId
+            this.collisionTable[object.x + object.width][j] = {x:object.x + object.width, y:j};
+            this.collisionTable[object.x + step.x][j] = object.collisionId
         }
 
     } else if(step.x > 0){
         const endValueX = object.x + step.x - 1;
-        for(let i = object.x; i < endValueX; i++){
-                this.collisionTable[i, object.y] = undefined;
-                this.collisionTable[object.x + object.width + ( object.x + step.x - i ) , object.y] = object.collisionId;
+        for(let i = endValueX; i > object.x; i--){
+                this.collisionTable[i][object.y] = {x:i, y:object.y};
+                this.collisionTable[object.x + object.width + ( object.x + step.x - i )][object.y] = object.collisionId;
 
-                this.collisionTable[i , object.y + object.height] = undefined;
-                this.collisionTable[object.x + object.width + ( object.x + step.x - i ) , object.y + object.height] = object.collisionId;
+                this.collisionTable[i][object.y + object.height] = {x:i, y:object.y + object.height};
+                this.collisionTable[object.x + object.width + ( object.x + step.x - i )][object.y + object.height] = object.collisionId;
         }
         for(let j = object.y + 1; j < object.y + object.height - 1; j++ ){
-            this.collisionTable[object.x, j] = undefined;
-            this.collisionTable[object.x + object.width + step.x, j] = object.collisionId
+            this.collisionTable[object.x][j] = {x:object.x, y:j};
+            this.collisionTable[object.x + object.width + step.x][j] = object.collisionId
         }
     }
 //y axis
     if(step.y < 0){
+        const startValueY = object.y + object.height + step.y + 1;
+        for(let i = startValueY; i < object.y + object.height; i++){
+            this.collisionTable[object.x][i] = {x:object.x, y:i};
+            this.collisionTable[object.x][object.y - (i - startValueY - 1)] = object.collisionId;
 
+            this.collisionTable[object.x + object.width][i] = {x:object.x + object.width, y:i};
+            this.collisionTable[object.x + object.width][object.y - (i - startValueY - 1)] = object.collisionId;
+        }
+
+        for(let i = object.x + 1; i < object.x + object.width - 1; i++){
+            this.collisionTable[i][object.y + object.height] = {x:i, y:object.y + object.height};
+            this.collisionTable[i][object.y + step.y] = object.collisionId;
+        }
+    } else if(step.y > 0){
+        const endValueY = object.y + step.y - 1;
+        for(let i = endValueY; i >= object.y; i--){
+            this.collisionTable[object.x][i] = {x:object.x, y:i};
+            this.collisionTable[object.x][object.y + object.height + (object.y + step.y - i)] = object.collisionId;
+
+            this.collisionTable[object.x + object.width][i] = {x:object.x + object.width, y:i};
+            this.collisionTable[object.x + object.width][object.y + object.height + (object.y + step.y - i)] = object.collisionId;
+        }
+        for(let j = object.x + 1; j <= object.x + object.width - 1; j++){
+            this.collisionTable[j][object.y] = {x:j, y:object.y};
+            this.collisionTable[j][object.y + object.height + step.y] = object.collisionId;
+        }
     }
 }
     // //left bound
@@ -219,7 +244,7 @@ moveCollision(object, step){
     // for(let j = object.x; j <= object.x + object.width; j++){
     //     this.collisionTable[j][object.y + object.height] = {x: j, y: object.y + object.height};
     // }
-}
+// }
 
 checkBounds(object){
     //0 - less than bounds
@@ -345,25 +370,25 @@ rotateImage(degree, objectId) {
         actionForBottomBorder.collisionIdstartValue = object.collisionId;
 
         //object left bound
-        for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
+        for(let i = object.y; i <= object.y + object.height && i >= 0; i++ ){
             actionForLeftBorder.prepareVariables = function() { this.x = object.x; this.y = i; }
             actionForLeftBorder.performAction();
         }
 
         //object upper bound
-        for(let j = object.x; j < object.x + object.width && j >= 0; j++){
+        for(let j = object.x; j <= object.x + object.width && j >= 0; j++){
             actionForUpperBorder.prepareVariables = function() { this.x = j; this.y = object.y; }
             actionForUpperBorder.performAction();
         }
 
         //object right bound
-        for(let i = object.y; i < object.y + object.height && i >= 0; i++ ){
+        for(let i = object.y; i <= object.y + object.height && i >= 0; i++ ){
             actionForRightBorder.prepareVariables = function() { this.x = object.x + object.width; this.y = i; }
             actionForRightBorder.performAction();
         }
 
         //object bottom bound 
-        for(let j = object.x; j < object.x + object.width && j >= 0; j++){
+        for(let j = object.x; j <= object.x + object.width && j >= 0; j++){
             actionForBottomBorder.prepareVariables = function() { this.x = j; this.y = object.y + object.height; }
             actionForBottomBorder.performAction();
         }

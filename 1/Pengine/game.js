@@ -4,7 +4,7 @@
 //context
 //utility
 
-const lengthTick = 30;
+
 
 $(document).ready(() => {
     initializeGameEngine();
@@ -12,9 +12,11 @@ $(document).ready(() => {
     //control.setControls(player);
     player.setTexture(Pengui.texture.getTextureByName('default').texture);
 
-    setInterval( ()=> {
-        Pengui.render();
-    }, 1000 / lengthTick);
+    startGameLoop();
+
+    // setInterval( ()=> {
+    //     Pengui.render();
+    // }, 1000 / Pengui.lengthTick);
 
     // startGameLoop();
 
@@ -37,11 +39,11 @@ globalVariables.lastTick = 0;
 
     function main( tFrame ){
         globalVariables.stopGameLoopToken = window.requestAnimationFrame( main );
-        var nextTick = globalVariables.lastTick + lengthTick;
+        var nextTick = globalVariables.lastTick + Pengui.lengthTick;
         var numTicks = 0;
 
         if(tFrame > nextTick){
-            numTicks = Math.floor( ( tFrame - nextTick ) / lengthTick );
+            numTicks = Math.floor( ( tFrame - nextTick ) / Pengui.lengthTick );
         } else if(tFrame === nextTick){
             numTicks = 1;
         } else {
@@ -54,8 +56,11 @@ globalVariables.lastTick = 0;
 
     function queueUpdates(numTicks){
 
+        // Pengui.control.checkKeys();
+
         for(i=0;i<numTicks;i++){
-            globalVariables.lastTick += globalVariables.lengthTick;
+            Pengui.update();
+            globalVariables.lastTick += Pengui.lengthTick;
             //control.checkKeys();
             //gameObjects.objects2D.forEach(object2D => {
               //  P.updateObject(object2D);
@@ -65,7 +70,7 @@ globalVariables.lastTick = 0;
     }
 
     function render(numTicks){
-        //Pengui.render();
+        Pengui.render();
     }
 
     globalVariables.lastTick = performance.now();

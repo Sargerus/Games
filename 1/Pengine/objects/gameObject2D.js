@@ -30,6 +30,7 @@ class objects {
         var obj = new gameObject2D(startX, startY, width, height, isActive, speed, texture);
         if(obj !== null){
             this.addObject(obj);
+            Pengui.plsRememberToRenderMe(obj);
         }
         return obj;
     }
@@ -37,6 +38,7 @@ class objects {
     createNewObject(obj){
         if(obj !== null){
             this.addObject(obj);
+            Pengui.plsRememberToRenderMe(obj);
         }
         return obj;
     }

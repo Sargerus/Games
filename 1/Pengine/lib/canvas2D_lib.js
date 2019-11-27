@@ -24,7 +24,7 @@ class Canvas2D {
                 // }
             }
         } else {
-            context2D.clearRect(object.x, object.y, object.x + object.width, object.y + object.height);
+            this.context2D.clearRect(object.x, object.y, object.x + object.width, object.y + object.height);
         }      
     }
 }

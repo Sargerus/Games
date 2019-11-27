@@ -1,13 +1,28 @@
-class Pengui {
+class PenguiCl {
+
+    constructor(){
+        this.lengthTick = 30; //FPS
+    }
 
     renderMap = new Map();
+    updateSet = new Set();
     is2DSet = false;
 
     plsRememberToRenderMe(object){
-        if(!this.renderMap.has(object.collistionId))
+        if(!this.renderMap.has(object.collisionId))
         {
-            this.renderMap.set(object.collistionId, object);
+            this.renderMap.set(object.collisionId, object);
         }
+    }
+
+    plsRememberToUpdateMe(obj){
+        if(!this.updateSet.has(obj)){
+            this.updateSet.add(obj);
+        }
+    }
+
+    update(){
+       this.updateSet.forEach((obj) => { obj.update();  }); //this.updateSet.delete(obj);
     }
 
     render(){
@@ -15,7 +30,7 @@ class Pengui {
 
         if(this.is2DSet)
         {
-            func = (obj) => { Utility2D.render(obj); }
+            func = (obj) => { obj.render(); }
         } else if(this.is3DSet)
             {
             //----

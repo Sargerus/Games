@@ -17,19 +17,37 @@ setControls(object) {
     {text: 'playerDownMoveButton', which: 83, action: () => {Utility2D.move(object, {x: 0, y: -object.stepDown})}},
     {text: 'playerShoot', which: 32, action: () => {object.shoot()}}
     ];
+
+    $(document).keydown((event) => {
+        this.mapKey(event, object);
+    });
+
+    $(document).keyup((event) => {
+        this.mapKey(event, object);
+    });
 }    
 
-mapKey(event){
+mapKey(event, object){
     this.mapKeys[event.which] = event.type == 'keydown';
+    this.checkKeys();
+    // this.controlSettings.forEach(key => {
+    //     if(this.mapKeys[key.which] == true){
+    //         key.action();
+    //     }
+    // })
 }
 
 checkKeys(){
+    var actions = [];
     this.controlSettings.forEach(key => {
         if(this.mapKeys[key.which] == true){
-            key.action();
+            actions.push(key.action);
+            // key.action();
         }
     })
+    actions.forEach((action) => action());
 }
+
 }
 
 function loadControlLibrary() {
