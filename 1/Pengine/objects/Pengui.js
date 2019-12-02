@@ -1,28 +1,56 @@
 class PenguiCl {
 
     constructor(){
-        this.lengthTick = 30; //FPS
+        //in milliseconds
+        this.lengthTick = 8;//32ms ~ 30 FPS, 16ms ~ 60 FPS
+        
+        this.renderSet = new Set();
+        this.updateMap = new Map();
+        this.is2DSet = false;
+        this.keyBoardObjectSet = new Set();
     }
 
-    renderMap = new Map();
-    updateSet = new Set();
-    is2DSet = false;
+    setKeyBoardEvent(object){
+        if(!this.keyBoardObjectSet.has(object))
+        {
+            this.keyBoardObjectSet.add(object);
+        }
+    }
+
+    deleteKeyBoardEvent(object){
+        this.keyBoardObjectSet.delete(object);
+    }
 
     plsRememberToRenderMe(object){
-        if(!this.renderMap.has(object.collisionId))
+        if(!this.renderSet.has(object))
         {
-            this.renderMap.set(object.collisionId, object);
+            this.renderSet.add(object, object.collisionId );
         }
     }
 
     plsRememberToUpdateMe(obj){
-        if(!this.updateSet.has(obj)){
-            this.updateSet.add(obj);
+        //if object is in map already, need to replace it with more recent version
+        if(this.updateMap.has(obj.collisionId)){
+           this.updateMap.delete(obj.collisionId);
         }
+        this.updateMap.set(obj.collisionId, obj);
     }
 
+    //check keyboard
+    //update
+    //clear updateMap, because in next tick it must be empty
     update(){
-       this.updateSet.forEach((obj) => { obj.update();  }); //this.updateSet.delete(obj);
+        this.keyBoardObjectSet.forEach(obj => {
+            this.control.checkKeys(obj);
+        });
+
+        this.updateMap.forEach((obj,key) => 
+        { 
+            obj.update();
+            this.plsRememberToRenderMe(obj);
+        });
+
+        this.updateMap.clear();
     }
 
     render(){
@@ -35,7 +63,7 @@ class PenguiCl {
             {
             //----
             }
-
-            this.renderMap.forEach( (obj) => { func(obj); } )
+            this.renderSet.forEach( (obj) => { func(obj); } )
+            this.renderSet.clear();
     }
 }

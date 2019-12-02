@@ -3,36 +3,11 @@
 //texture
 //context
 //utility
-
-
-
 $(document).ready(() => {
     initializeGameEngine();
     var player = Pengui.gameObjects.createNewObject(new Player(50,50,50,50,true,1));
-    //control.setControls(player);
     player.setTexture(Pengui.texture.getTextureByName('default').texture);
-
-    startGameLoop();
-
-    // setInterval( ()=> {
-    //     Pengui.render();
-    // }, 1000 / Pengui.lengthTick);
-
-    // startGameLoop();
-
-//     setInterval(() => {
-//         control.checkKeys();
-//         // canvas.context2D.clearRect(0, 0, canvas.CANVAS_WIDTH, canvas.CANVAS_HEIGHT);
-//         gameObjects.objects2D.forEach(object2D => {
-//             Utility2D.updateObject(object2D);
-//         });
-// }, 1000 / 60);
-
 });
-
-
-
-startGameLoop = function(){
 
 globalVariables = new Object;
 globalVariables.lastTick = 0;
@@ -50,32 +25,27 @@ globalVariables.lastTick = 0;
             numTicks = 0;
         }
 
-        queueUpdates(numTicks);
+        update(numTicks);
         render(tFrame);
     }
 
-    function queueUpdates(numTicks){
-
-        // Pengui.control.checkKeys();
+    function update(numTicks){
 
         for(i=0;i<numTicks;i++){
-            Pengui.update();
             globalVariables.lastTick += Pengui.lengthTick;
-            //control.checkKeys();
-            //gameObjects.objects2D.forEach(object2D => {
-              //  P.updateObject(object2D);
-            //});
+            Pengui.update();
+            console.log("update:", Pengui.lastTick);
         }
-    
     }
 
     function render(numTicks){
         Pengui.render();
+        console.log("render:",numTicks);
     }
 
     globalVariables.lastTick = performance.now();
     globalVariables.lastRender = globalVariables.lastTick;
 
+    //"main" calls infinite game loop
     main(performance.now());
-};
 

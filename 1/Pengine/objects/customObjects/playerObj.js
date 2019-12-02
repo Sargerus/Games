@@ -9,18 +9,19 @@
 
         this.playerBullets = [];
 
+        
         Pengui.control.setControls(this);
         Pengui.collision.fillCollision(this);
     }
 
     update(){
-        Pengui.control.checkKeys();
+        // Pengui.control.invokeControls(this);
+        // Pengui.control.checkKeys();
     }
 
     render(){
-        Pengui.canvas.context2D.drawImage(this.texture, this.x, this.y, this.width, this.height);
         
-        // gameObject2D.prototype.render();
+        Pengui.canvas.context2D.drawImage(this.texture, this.x, this.y, this.width, this.height);
     }
 
     // shoot(){
